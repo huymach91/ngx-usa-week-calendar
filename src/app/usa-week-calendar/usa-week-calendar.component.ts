@@ -49,6 +49,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   public today = new Date();
   public currentYear: number;
+  public currentMonth: number;
 
   public selectedMonth: number; // 1-12
   public selectedYear: number;
@@ -62,7 +63,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   constructor() {
     this.currentYear = this.today.getFullYear();
     this.selectedYear = this.today.getFullYear();
-    this.selectedMonth = this.today.getMonth() + 1;
+    this.currentMonth = this.today.getMonth() + 1;
+    this.selectedMonth = this.currentMonth;
     for (let i = this.currentYear; i > this.currentYear - 10; i--) {
       this.years.push(i);
     }
@@ -156,6 +158,13 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.selectedValue = 'Week ' + weekNumber + ', ' + +this.selectedYear;
       return;
     }
+  }
+
+  public onSelectThisWeek() {
+    this.onSelectWeekNumber(
+      this.dateGroupByWeek[this.selectedWeekNumber],
+      moment().week()
+    );
   }
 
   public previous() {

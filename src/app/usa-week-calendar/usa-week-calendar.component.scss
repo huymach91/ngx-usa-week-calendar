@@ -77,6 +77,17 @@
   }
 }
 
+.calendar-foot {
+  display: flex;
+  justify-content: space-between;
+}
+
+.this-week {
+  color: #2ba3c4;
+  cursor: pointer;
+  font-size: 0.6;
+}
+
 .caret {
   position: relative;
 }
