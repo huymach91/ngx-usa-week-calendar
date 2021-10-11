@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { DateTime } from 'luxon';
 
-console.log(DateTime);
+console.log(DateTime.now());
 
 @Component({
   selector: 'usa-week-calendar',
