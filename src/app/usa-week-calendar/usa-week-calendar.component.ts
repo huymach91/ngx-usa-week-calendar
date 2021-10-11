@@ -8,6 +8,13 @@ import {
 } from '@angular/core';
 import moment = require('moment');
 
+interface IDate {
+  shortDate: string;
+  date: string;
+  dayInWeek: string;
+  week: number;
+}
+
 @Component({
   selector: 'usa-week-calendar',
   templateUrl: './usa-week-calendar.component.html',
@@ -48,6 +55,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   public dateGroupByWeek = {}; // { 36: [], 37: [] }
   public weekNumbers = []; // [36, 37, 38, 39, 40]
+
+  public selectedValue = '';
 
   constructor() {
     this.currentYear = this.today.getFullYear();
@@ -101,22 +110,20 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   private getDaysOfMonth(year: number, month: number) {
     const monthDate = moment(year + '-' + month, 'YYYY-MM');
     let daysInMonth = monthDate.daysInMonth();
-    const arrDays = [];
-
-    while (daysInMonth) {
-      const current = moment(
-        year + '-' + month + '-' + daysInMonth,
-        'YYYY-MM-DD'
-      ).date(daysInMonth);
+    const arrDays: Array<IDate> = [];
+    let i = 1;
+    while (i <= daysInMonth) {
+      const current = moment(year + '-' + month + '-' + i, 'YYYY-MM-DD').date(
+        i
+      );
       arrDays.push({
         shortDate: current.format('YYYY-MM-DD'),
         date: current.format('D'),
         dayInWeek: this.weeks[current.day()],
         week: current.week(),
       });
-      daysInMonth--;
+      i++;
     }
-    console.log(arrDays);
     return arrDays;
   }
 
@@ -128,7 +135,26 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     return date ? date.date : '';
   }
 
-  public onSelectWeekNumber(weekNumber: number) {}
+  public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
+    this.selectedValue = '';
+
+    if (!dateGroupByWeek.length) {
+      return;
+    }
+
+    const from = dateGroupByWeek[0] as IDate;
+
+    if (dateGroupByWeek.length === 1) {
+      this.selectedValue = 'Week ' + weekNumber + ', ' + this.selectedYear;
+      return;
+    }
+
+    if (dateGroupByWeek.length > 1) {
+      const to = dateGroupByWeek[dateGroupByWeek.length - 1] as IDate;
+      this.selectedValue = 'Week ' + weekNumber + ', ' + +this.selectedYear;
+      return;
+    }
+  }
 
   public previous() {
     if (this.selectedMonth === 1) {

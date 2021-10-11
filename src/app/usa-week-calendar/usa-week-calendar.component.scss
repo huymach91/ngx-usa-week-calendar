@@ -1,11 +1,12 @@
 .usa-week-calendar-wrapper {
   min-width: 120px;
   border: 1px solid rgb(199, 192, 192);
-  padding: 4px 17px;
+  padding: 4px;
   position: relative;
   min-height: 19px;
   border-radius: 3px;
   -webkit-border-radius: 3px;
+  font-size: 0.75;
 }
 
 .usa-week-calendar-icon {
@@ -40,6 +41,7 @@
     .previous,
     .next {
       padding: 5px;
+      font-size: 1rem;
       cursor: pointer;
     }
   }
@@ -49,7 +51,7 @@
   display: flex;
   column-gap: 5px;
   select {
-    font-size: 12px;
+    font-size: 0.75;
     border-color: #ccc;
   }
 }
@@ -57,6 +59,7 @@
 .calendar-body {
   > table {
     width: 100%;
+    border-collapse: collapse;
     tr th {
       font-weight: 550;
     }
@@ -67,7 +70,7 @@
     }
   }
   .highlight:hover {
-    background-color: #a6d8ff;
+    background-color: #a4dcf7;
     cursor: pointer;
   }
 }

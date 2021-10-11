@@ -1,6 +1,7 @@
 <div class="usa-week-calendar-wrapper" #calendarWrapper>
   <div class="usa-week-calendar-toggle" #calendarToggle>
-    <span>- Select Week -</span>
+    <span *ngIf="!selectedValue">- Select Week -</span>
+    <span *ngIf="selectedValue">{{ selectedValue }}</span>
   </div>
   <span class="usa-week-calendar-icon fa fa-calendar-o"></span>
   <div class="usa-week-calendar-dropdown" #calendarDropdown>
@@ -18,12 +19,8 @@
         </select>
       </div>
       <div class="btns">
-        <div class="previous" (click)="previous()">
-          <i class="fa fa-chevron-up"></i>
-        </div>
-        <div class="next" (click)="next()">
-          <i class="fa fa-chevron-down"></i>
-        </div>
+        <div class="previous" (click)="previous()">&#8249;</div>
+        <div class="next" (click)="next()">&#8250;</div>
       </div>
     </div>
     <div class="calendar-body">
@@ -38,7 +35,9 @@
           <tr
             class="highlight"
             *ngFor="let weekNumber of weekNumbers"
-            (click)="onSelectWeekNumber(weekNumber)"
+            (click)="
+              onSelectWeekNumber(dateGroupByWeek[weekNumber], weekNumber)
+            "
           >
             <th class="week">{{ weekNumber }}</th>
             <td *ngFor="let week of weeks" class="date">
