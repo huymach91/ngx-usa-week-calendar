@@ -6,9 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { DateTime } from 'luxon';
-
-console.log(DateTime.now());
+import moment = require('moment');
 
 @Component({
   selector: 'usa-week-calendar',
@@ -97,33 +95,24 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.selectedMonth
     ); // ['2021-09-01', '2021-09-02', ..., '2021-09-30']
     this.dateGroupByWeek = this.groupBy(currentDateList, 'week');
-    console.log(this.dateGroupByWeek);
     this.weekNumbers = Object.keys(this.dateGroupByWeek).map((n) => +n);
   }
 
-  private daysInMonth(month, year) {
-    const date = new Date(year, month, 0);
-    return date.getDate();
-  }
-
-  private getWeekOfMonth(date) {
-    let adjustedDate = date.getDate() + date.getDay();
-    let prefixes = ['0', '1', '2', '3', '4', '5'];
-    return parseInt(prefixes[0 | (adjustedDate / 7)]) + 1;
-  }
-
   private getDaysOfMonth(year: number, month: number) {
-    let daysInMonth = this.daysInMonth(month, year);
-    const date = year + '-' + month + '-' + daysInMonth;
-    var arrDays = [];
+    const monthDate = moment(year + '-' + month, 'YYYY-MM');
+    let daysInMonth = monthDate.daysInMonth();
+    const arrDays = [];
 
     while (daysInMonth) {
-      const date = year + '-' + month + '-' + daysInMonth;
+      const current = moment(
+        year + '-' + month + '-' + daysInMonth,
+        'YYYY-MM-DD'
+      ).date(daysInMonth);
       arrDays.push({
-        shortDate: date,
-        date: daysInMonth,
-        dayInWeek: this.weeks[new Date(date).getDay()],
-        week: this.getWeekOfMonth(new Date(date)),
+        shortDate: current.format('YYYY-MM-DD'),
+        date: current.format('D'),
+        dayInWeek: this.weeks[current.day()],
+        week: current.week(),
       });
       daysInMonth--;
     }
