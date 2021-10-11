@@ -1,0 +1,117 @@
+.usa-week-calendar-wrapper {
+  min-width: 120px;
+  border: 1px solid rgb(199, 192, 192);
+  padding: 4px 17px;
+  position: relative;
+  min-height: 19px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.usa-week-calendar-icon {
+  position: absolute;
+  top: 5px;
+  color: black;
+  right: 5px;
+}
+
+.usa-week-calendar-dropdown {
+  box-shadow: 1px 1px 5px #ccc;
+  -webkit-box-shadow: 1px 1px 5px #ccc;
+  -moz-box-shadow: 1px 1px 5px #ccc;
+  -ms-box-shadow: 1px 1px 5px #ccc;
+  border: 1px solid #ccc;
+  display: none;
+  position: absolute;
+  top: 28px;
+  background-color: white;
+  left: 0;
+  padding: 3px 7px;
+  z-index: 3;
+  min-width: 210px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .btns {
+    display: flex;
+    .previous,
+    .next {
+      padding: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.selector {
+  display: flex;
+  column-gap: 5px;
+  select {
+    font-size: 12px;
+    border-color: #ccc;
+  }
+}
+
+.calendar-body {
+  > table {
+    width: 100%;
+    tr th {
+      font-weight: 550;
+    }
+    tr td,
+    tr th {
+      padding: 3px 5px;
+      text-align: center;
+    }
+  }
+  .row-week:hover {
+    background-color: #a6d8ff;
+    cursor: pointer;
+  }
+}
+
+.caret {
+  position: relative;
+}
+
+.caret-bottom:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 5px solid #201c1c;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.caret-bottom:after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 0;
+  border-top: 4px solid #0d0c0c;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+.caret-top:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 5px solid #201c1c;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.caret-top:after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  border-bottom: 4px solid #0d0c0c;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}

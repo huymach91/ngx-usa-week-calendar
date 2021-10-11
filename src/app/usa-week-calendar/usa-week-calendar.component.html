@@ -1,0 +1,52 @@
+<div class="usa-week-calendar-wrapper" #calendarWrapper>
+  <div class="usa-week-calendar-toggle" #calendarToggle>
+    <span>- Select Week -</span>
+  </div>
+  <span class="usa-week-calendar-icon fa fa-calendar-o"></span>
+  <div class="usa-week-calendar-dropdown" #calendarDropdown>
+    <div class="calendar-header">
+      <div class="selector">
+        <select [(ngModel)]="selectedMonth" (change)="calcWeeks()">
+          <option [value]="i + 1" *ngFor="let month of months; let i = index">
+            {{ month }}
+          </option>
+        </select>
+        <select [(ngModel)]="selectedYear" (change)="calcWeeks()">
+          <option [value]="year" *ngFor="let year of years; let i = index">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+      <div class="btns">
+        <div class="previous" (click)="previous()">
+          <i class="fa fa-chevron-up"></i>
+        </div>
+        <div class="next" (click)="next()">
+          <i class="fa fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+    <div class="calendar-body">
+      <table>
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th *ngFor="let week of weeks">{{ week }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="row-week"
+            *ngFor="let weekNumber of weekNumbers"
+            (click)="onSelectWeekNumber(weekNumber)"
+          >
+            <th class="week">{{ weekNumber }}</th>
+            <td *ngFor="let week of weeks" class="date">
+              {{ returnDateByWeekNumber(dateGroupByWeek[weekNumber], week) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
