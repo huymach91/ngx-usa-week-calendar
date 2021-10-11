@@ -70,7 +70,8 @@
     }
   }
   .highlight,
-  .highlight:hover {
+  .highlight:hover,
+  .selected:hover {
     background-color: #a4dcf7;
     cursor: pointer;
   }

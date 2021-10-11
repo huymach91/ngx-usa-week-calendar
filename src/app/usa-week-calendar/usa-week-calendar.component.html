@@ -2,6 +2,7 @@
   <div class="usa-week-calendar-toggle" #calendarToggle>
     <span *ngIf="!selectedValue">- Select Week -</span>
     <span *ngIf="selectedValue">{{ selectedValue }}</span>
+    <span class="usa-week-calendar-icon"><calendar-icon></calendar-icon></span>
   </div>
   <span class="usa-week-calendar-icon fa fa-calendar-o"></span>
   <div class="usa-week-calendar-dropdown" #calendarDropdown>
@@ -33,7 +34,7 @@
         </thead>
         <tbody>
           <tr
-            class="highlight"
+            class="selected"
             [ngClass]="{ highlight: selectedWeekNumber === weekNumber }"
             *ngFor="let weekNumber of weekNumbers"
             (click)="
