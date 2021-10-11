@@ -2,6 +2,7 @@
 <div class="width-150">
   <usa-week-calendar
     name="week-calendar"
+    (ngModelChange)="onChangeWeekCalendar($event)"
     [control]="control"
   ></usa-week-calendar>
 </div>

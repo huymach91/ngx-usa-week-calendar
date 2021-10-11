@@ -11,4 +11,8 @@ export class AppComponent {
   public control = this.formBuilder.control('');
 
   constructor(private formBuilder: FormBuilder) {}
+
+  public onChangeWeekCalendar(value) {
+    console.log(value);
+  }
 }
