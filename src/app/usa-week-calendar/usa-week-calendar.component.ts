@@ -82,14 +82,14 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   @HostListener('document:click', ['$event'])
   public onClickOutside(event) {
-    if (!this.wrapper.contains(event.target)) {
+    if (this.wrapper && !this.wrapper.contains(event.target)) {
       this.dropdown.style.setProperty('display', 'none');
       return;
     }
   }
 
   private openDropdown(event) {
-    if (!this.wrapper.contains(event.target)) {
+    if (this.wrapper && !this.wrapper.contains(event.target)) {
       this.closeDropdown();
       return;
     }
@@ -141,26 +141,17 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
     this.selectedValue = '';
     this.selectedWeekNumber = weekNumber;
-
-    if (!dateGroupByWeek.length) {
+    if (!dateGroupByWeek || !dateGroupByWeek.length) {
       return;
     }
-
-    const from = dateGroupByWeek[0] as IDate;
-
-    if (dateGroupByWeek.length === 1) {
-      this.selectedValue = 'Week ' + weekNumber + ', ' + this.selectedYear;
-      return;
-    }
-
-    if (dateGroupByWeek.length > 1) {
-      const to = dateGroupByWeek[dateGroupByWeek.length - 1] as IDate;
-      this.selectedValue = 'Week ' + weekNumber + ', ' + +this.selectedYear;
-      return;
-    }
+    this.selectedValue = 'Week ' + weekNumber + ', ' + +this.selectedYear;
   }
 
   public onSelectThisWeek() {
+    const m = moment();
+    this.selectedYear = m.get('year');
+    this.selectedMonth = m.get('month') + 1;
+    this.calcWeeks();
     this.onSelectWeekNumber(
       this.dateGroupByWeek[this.selectedWeekNumber],
       moment().week()
