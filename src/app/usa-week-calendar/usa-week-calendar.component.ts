@@ -2,10 +2,14 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
+  Input,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import moment = require('moment');
 
 interface IDate {
@@ -21,6 +25,9 @@ interface IDate {
   styleUrls: ['./usa-week-calendar.component.scss'],
 })
 export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
+  @Input('control') control: FormControl;
+  @Output('ngModelChange') ngModelChange = new EventEmitter();
+
   @ViewChild('calendarWrapper', { static: false }) calendarWrapper: ElementRef;
   @ViewChild('calendarToggle', { static: false }) calendarToggle: ElementRef;
   @ViewChild('calendarDropdown', { static: false })
@@ -145,6 +152,18 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       return;
     }
     this.selectedValue = 'Week ' + weekNumber + ', ' + +this.selectedYear;
+    const from = dateGroupByWeek[0] as IDate;
+    const to = dateGroupByWeek[dateGroupByWeek.length - 1] as IDate;
+    const value = {
+      weekNumber: weekNumber,
+      year: this.selectedYear,
+      month: this.selectedMonth,
+      value: this.selectedValue,
+      from: from.shortDate,
+      to: to.shortDate,
+    };
+    this.control.patchValue(value);
+    this.ngModelChange.emit(value);
   }
 
   public onSelectThisWeek() {
