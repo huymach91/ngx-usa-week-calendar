@@ -57,6 +57,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   public weekNumbers = []; // [36, 37, 38, 39, 40]
 
   public selectedValue = '';
+  public selectedWeekNumber: number;
 
   constructor() {
     this.currentYear = this.today.getFullYear();
@@ -137,6 +138,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
     this.selectedValue = '';
+    this.selectedWeekNumber = weekNumber;
 
     if (!dateGroupByWeek.length) {
       return;
