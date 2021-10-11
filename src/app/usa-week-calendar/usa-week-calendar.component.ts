@@ -6,6 +6,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { DateTime } from 'luxon';
+
+console.log(DateTime);
 
 @Component({
   selector: 'usa-week-calendar',
@@ -93,36 +96,39 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.selectedYear,
       this.selectedMonth
     ); // ['2021-09-01', '2021-09-02', ..., '2021-09-30']
-    // this.dateGroupByWeek = _.groupBy(currentDateList, 'week');
+    this.dateGroupByWeek = this.groupBy(currentDateList, 'week');
+    console.log(this.dateGroupByWeek);
     this.weekNumbers = Object.keys(this.dateGroupByWeek).map((n) => +n);
   }
 
   private daysInMonth(month, year) {
-    return new Date(year, month, 0).getDate();
+    const date = new Date(year, month, 0);
+    return date.getDate();
+  }
+
+  private getWeekOfMonth(date) {
+    let adjustedDate = date.getDate() + date.getDay();
+    let prefixes = ['0', '1', '2', '3', '4', '5'];
+    return parseInt(prefixes[0 | (adjustedDate / 7)]) + 1;
   }
 
   private getDaysOfMonth(year: number, month: number) {
-    // var monthDate = moment(year + '-' + month, 'YYYY-MM');
-    var daysInMonth = this.daysInMonth(month, year);
-    console.log('daysInMonth', daysInMonth);
-    // var arrDays = [];
+    let daysInMonth = this.daysInMonth(month, year);
+    const date = year + '-' + month + '-' + daysInMonth;
+    var arrDays = [];
 
-    // while (daysInMonth) {
-    //   // var current = moment(
-    //   //   year + '-' + month + '-' + daysInMonth,
-    //   //   'YYYY-MM-DD'
-    //   // ).date(daysInMonth);
-    //   // arrDays.push({
-    //   //   shortDate: current.format('YYYY-MM-DD'),
-    //   //   date: current.format('D'),
-    //   //   dayInWeek: this.weeks[current.day()],
-    //   //   week: current.week(),
-    //   // });
-    //   // daysInMonth--;
-    // }
-
-    // return arrDays;
-    return [];
+    while (daysInMonth) {
+      const date = year + '-' + month + '-' + daysInMonth;
+      arrDays.push({
+        shortDate: date,
+        date: daysInMonth,
+        dayInWeek: this.weeks[new Date(date).getDay()],
+        week: this.getWeekOfMonth(new Date(date)),
+      });
+      daysInMonth--;
+    }
+    console.log(arrDays);
+    return arrDays;
   }
 
   public returnDateByWeekNumber(
@@ -155,5 +161,12 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     }
     this.selectedMonth++;
     this.calcWeeks();
+  }
+
+  private groupBy(list, key) {
+    return list.reduce(function (rv, x) {
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
   }
 }
