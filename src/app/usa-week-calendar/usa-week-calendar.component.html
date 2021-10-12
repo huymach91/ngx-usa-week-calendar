@@ -1,6 +1,9 @@
 <div class="usa-week-calendar-wrapper" #calendarWrapper>
   <div class="usa-week-calendar-toggle" #calendarToggle>
-    <span *ngIf="!selectedValue">- Select Week -</span>
+    <span *ngIf="!selectedValue"
+      >Week <span #weekNumberRef class="week-number">--</span>,
+      <span #yearRef class="year">----</span></span
+    >
     <span *ngIf="selectedValue">{{ selectedValue }}</span>
     <span class="usa-week-calendar-icon"><calendar-icon></calendar-icon></span>
   </div>

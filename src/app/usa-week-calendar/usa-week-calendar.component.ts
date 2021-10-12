@@ -32,6 +32,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   @ViewChild('calendarToggle', { static: false }) calendarToggle: ElementRef;
   @ViewChild('calendarDropdown', { static: false })
   calendarDropdown: ElementRef;
+  @ViewChild('weekNumberRef', { static: false }) weekNumberRef;
+  @ViewChild('yearRef', { static: false }) yearRef;
 
   public wrapper: HTMLDivElement;
   public toggle: HTMLDivElement;
