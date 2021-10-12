@@ -136,6 +136,22 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       setTimeout(() => this.onClickWeekNumber());
     }
 
+    if (
+      this.weekNumber.contains(selection.anchorNode) &&
+      (key === 'Backspace' || key === 'Delete')
+    ) {
+      this.display.weekNumber = '--';
+      this.selectWeekNumberNode();
+    }
+
+    if (
+      this.year.contains(selection.anchorNode) &&
+      (key === 'Backspace' || key === 'Delete')
+    ) {
+      this.display.year = '----';
+      this.selectWeekNumberNode();
+    }
+
     // case 2: enter week number
     // week number: '--', index starts from 0 to 1
     if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
@@ -151,7 +167,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       }
       // remaining node selection
       if (this.weekNumberReplaceIndex >= 0) {
-        setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 4));
+        this.selectWeekNumberNode();
       }
     }
 
@@ -169,7 +185,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       }
       // remaining node selection
       if (this.yearReplaceIndex >= 0) {
-        setTimeout(() => this.selectNode(this.year.firstChild, 0, 4));
+        this.selectYearNode();
       }
     }
   }
@@ -187,10 +203,12 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     from: number,
     to: number
   ) {
-    let i = from;
-    while (i < to) {
-      this.swap(list, i, i + 1);
-      i++;
+    for (let i = 0; i < to; i++) {
+      if (i >= from) {
+        this.swap(list, i, i + 1);
+      } else {
+        list[i] = 0;
+      }
     }
     list[to] = value;
   }
@@ -337,5 +355,13 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     range.setEnd(node, end);
     document.getSelection().removeAllRanges();
     selection.addRange(range);
+  }
+
+  private selectWeekNumberNode() {
+    setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 2));
+  }
+
+  private selectYearNode() {
+    setTimeout(() => this.selectNode(this.year.firstChild, 0, 4));
   }
 }
