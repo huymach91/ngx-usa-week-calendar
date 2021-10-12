@@ -173,7 +173,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
     // case 3: enter year
     if (this.year.contains(selection.anchorNode) && /[\d]/.test(event.key)) {
-      // week number: '----', index starts from 0 to 3
+      // year: '----', index starts from 0 to 3
       console.log('case 2');
     }
   }
