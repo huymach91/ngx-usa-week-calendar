@@ -38,6 +38,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   public wrapper: HTMLDivElement;
   public toggle: HTMLDivElement;
   public dropdown: HTMLDivElement;
+  public weekNumber: HTMLSpanElement;
+  public year: HTMLSpanElement;
 
   public months = [
     'Jan',
@@ -85,8 +87,10 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     this.wrapper = this.calendarWrapper.nativeElement;
     this.toggle = this.calendarToggle.nativeElement;
     this.dropdown = this.calendarDropdown.nativeElement;
+    this.weekNumber = this.weekNumberRef.nativeElement;
+    this.year = this.yearRef.nativeElement;
 
-    this.wrapper.addEventListener('click', this.openDropdown.bind(this));
+    this.toggle.addEventListener('click', this.openDropdown.bind(this));
   }
 
   @HostListener('document:click', ['$event'])
@@ -95,6 +99,16 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.dropdown.style.setProperty('display', 'none');
       return;
     }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent) {
+    const key = event.key;
+    const selection = document.getSelection();
+    // case 1: enter week number
+    if (this.weekNumber.contains(selection.anchorNode)) {
+    }
+    // case 2: enter year
   }
 
   private openDropdown(event) {
@@ -209,5 +223,22 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       (rv[x[key]] = rv[x[key]] || []).push(x);
       return rv;
     }, {});
+  }
+
+  public onClickWeekNumber() {
+    this.selectNode(this.weekNumber.firstChild, 0, 2);
+  }
+
+  public onClickYear() {
+    this.selectNode(this.year.firstChild, 0, 4);
+  }
+
+  private selectNode(node, start: number, end: number) {
+    const selection = document.getSelection();
+    const range = document.createRange();
+    range.setStart(node, start);
+    range.setEnd(node, end);
+    document.getSelection().removeAllRanges();
+    selection.addRange(range);
   }
 }

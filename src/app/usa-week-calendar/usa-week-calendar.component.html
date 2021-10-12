@@ -1,11 +1,15 @@
 <div class="usa-week-calendar-wrapper" #calendarWrapper>
-  <div class="usa-week-calendar-toggle" #calendarToggle>
+  <div class="usa-week-calendar-toggle">
     <span *ngIf="!selectedValue"
-      >Week <span #weekNumberRef class="week-number">--</span>,
-      <span #yearRef class="year">----</span></span
+      >Week
+      <span #weekNumberRef class="week-number" (click)="onClickWeekNumber()"
+        >--</span
+      >, <span #yearRef (click)="onClickYear()" class="year">----</span></span
     >
     <span *ngIf="selectedValue">{{ selectedValue }}</span>
-    <span class="usa-week-calendar-icon"><calendar-icon></calendar-icon></span>
+    <span class="usa-week-calendar-icon" #calendarToggle
+      ><calendar-icon></calendar-icon
+    ></span>
   </div>
   <span class="usa-week-calendar-icon fa fa-calendar-o"></span>
   <div class="usa-week-calendar-dropdown" #calendarDropdown>
