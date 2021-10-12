@@ -6,7 +6,10 @@
   min-height: 19px;
   border-radius: 3px;
   -webkit-border-radius: 3px;
-  font-size: 0.75;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }
 
 .usa-week-calendar-icon {
@@ -130,4 +133,9 @@
   border-bottom: 4px solid #0d0c0c;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
+}
+
+.week-number,
+.year {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

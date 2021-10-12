@@ -149,7 +149,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       (key === 'Backspace' || key === 'Delete')
     ) {
       this.display.year = '----';
-      this.selectWeekNumberNode();
+      this.selectYearNode();
     }
 
     // case 2: enter week number
