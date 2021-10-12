@@ -137,23 +137,37 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     }
 
     // case 2: enter week number
+    // week number: '--', index starts from 0 to 1
     if (
       this.weekNumber.contains(selection.anchorNode) &&
       /[\d]/.test(event.key)
     ) {
-      // week number: '--', index starts from 0 to 1
-      if (this.weekNumberReplaceIndex <= 0) {
+      // move to year if replace index starts from 0
+      if (this.weekNumberReplaceIndex === 0) {
+        const weekNumbers = this.display.weekNumber.split('');
+        // swap
+        const temp = weekNumbers[1];
+        weekNumbers[1] = event.key;
+        weekNumbers[this.weekNumberReplaceIndex] = temp;
+        this.display.weekNumber = weekNumbers.join(''); // ex: '43', '16'
+        // reset
+        this.weekNumberReplaceIndex = 1;
+        // select 'year' node
         this.onClickYear();
+        return;
       }
-      // replace
-      const weekNumbers = this.display.weekNumber.split('');
-      weekNumbers[this.weekNumberReplaceIndex] = event.key;
-      this.display.weekNumber = weekNumbers.join('');
-      // set replace index to 0
-      this.weekNumberReplaceIndex--;
-      // select again
-      if (this.weekNumberReplaceIndex >= 0) {
-        setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 2));
+
+      if (this.weekNumberReplaceIndex === 1) {
+        // replace index 1
+        const weekNumbers = this.display.weekNumber.split('');
+        weekNumbers[this.weekNumberReplaceIndex] = event.key;
+        this.display.weekNumber = weekNumbers.join(''); // ex: '-4', '-1'
+        // set replace index to zero
+        this.weekNumberReplaceIndex = 0;
+        // remaining node selection
+        if (this.weekNumberReplaceIndex >= 0) {
+          setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 2));
+        }
       }
     }
 
