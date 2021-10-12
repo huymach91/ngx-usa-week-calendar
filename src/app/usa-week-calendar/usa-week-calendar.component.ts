@@ -175,7 +175,22 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     if (this.year.contains(selection.anchorNode) && /[\d]/.test(event.key)) {
       // year: '----', index starts from 0 to 3
       console.log('case 2');
+      let i = 3;
+      while (i >= this.yearReplaceIndex) {
+        i--;
+      }
+      if (this.yearReplaceIndex === 3) {
+        const weekNumbers = this.display.weekNumber.split('');
+        weekNumbers[this.weekNumberReplaceIndex] = event.key;
+        this.display.weekNumber = weekNumbers.join(''); // ex: '-4', '-1'
+      }
     }
+  }
+
+  private swap(list: Array<any>, indexA: number, indexB: number) {
+    const temp = list[indexA];
+    list[indexA] = list[indexB];
+    list[indexB] = temp;
   }
 
   private openDropdown(event) {
