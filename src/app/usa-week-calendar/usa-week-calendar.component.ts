@@ -164,6 +164,9 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     };
     this.control.patchValue(value);
     this.ngModelChange.emit(value);
+    setTimeout(() => {
+      this.closeDropdown();
+    });
   }
 
   public onSelectThisWeek() {
