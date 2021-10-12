@@ -138,51 +138,38 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
     // case 2: enter week number
     // week number: '--', index starts from 0 to 1
-    if (
-      this.weekNumber.contains(selection.anchorNode) &&
-      /[\d]/.test(event.key)
-    ) {
+    if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // move to year if replace index starts from 0
-      if (this.weekNumberReplaceIndex === 0) {
-        const weekNumbers = this.display.weekNumber.split('');
-        // swap
-        const temp = weekNumbers[1];
-        weekNumbers[1] = event.key;
-        weekNumbers[this.weekNumberReplaceIndex] = temp;
-        this.display.weekNumber = weekNumbers.join(''); // ex: '43', '16'
-        // reset
+      const weekNumbers = this.display.weekNumber.split('');
+      this.rollValueToEnd(weekNumbers, key, this.weekNumberReplaceIndex, 1);
+      this.display.weekNumber = weekNumbers.join('');
+      // down the replace index
+      this.weekNumberReplaceIndex--;
+      // reset
+      if (this.weekNumberReplaceIndex < 0) {
         this.weekNumberReplaceIndex = 1;
-        // select 'year' node
-        this.onClickYear();
-        return;
       }
-
-      if (this.weekNumberReplaceIndex === 1) {
-        // replace index 1
-        const weekNumbers = this.display.weekNumber.split('');
-        weekNumbers[this.weekNumberReplaceIndex] = event.key;
-        this.display.weekNumber = weekNumbers.join(''); // ex: '-4', '-1'
-        // set replace index to zero
-        this.weekNumberReplaceIndex = 0;
-        // remaining node selection
-        if (this.weekNumberReplaceIndex >= 0) {
-          setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 2));
-        }
+      // remaining node selection
+      if (this.weekNumberReplaceIndex >= 0) {
+        setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 4));
       }
     }
 
     // case 3: enter year
-    if (this.year.contains(selection.anchorNode) && /[\d]/.test(event.key)) {
+    if (this.year.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // year: '----', index starts from 0 to 3
-      console.log('case 2');
-      let i = 3;
-      while (i >= this.yearReplaceIndex) {
-        i--;
+      const years = this.display.year.split('');
+      this.rollValueToEnd(years, key, this.yearReplaceIndex, 3);
+      this.display.year = years.join('');
+      // down the replace index
+      this.yearReplaceIndex--;
+      // reset
+      if (this.yearReplaceIndex < 0) {
+        this.yearReplaceIndex = 3;
       }
-      if (this.yearReplaceIndex === 3) {
-        const weekNumbers = this.display.weekNumber.split('');
-        weekNumbers[this.weekNumberReplaceIndex] = event.key;
-        this.display.weekNumber = weekNumbers.join(''); // ex: '-4', '-1'
+      // remaining node selection
+      if (this.yearReplaceIndex >= 0) {
+        setTimeout(() => this.selectNode(this.year.firstChild, 0, 4));
       }
     }
   }
@@ -191,6 +178,21 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     const temp = list[indexA];
     list[indexA] = list[indexB];
     list[indexB] = temp;
+  }
+
+  // role value to from index to index
+  private rollValueToEnd(
+    list: Array<any>,
+    value: any,
+    from: number,
+    to: number
+  ) {
+    let i = from;
+    while (i < to) {
+      this.swap(list, i, i + 1);
+      i++;
+    }
+    list[to] = value;
   }
 
   private openDropdown(event) {
