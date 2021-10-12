@@ -19,6 +19,12 @@ interface IDate {
   week: number;
 }
 
+interface IValue {
+  weekNumber: any;
+  year: any;
+  month: any;
+}
+
 @Component({
   selector: 'usa-week-calendar',
   templateUrl: './usa-week-calendar.component.html',
@@ -68,7 +74,11 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   public dateGroupByWeek = {}; // { 36: [], 37: [] }
   public weekNumbers = []; // [36, 37, 38, 39, 40]
 
-  public selectedValue = '';
+  public value: IValue = {
+    weekNumber: '',
+    year: '',
+    month: '',
+  };
   public selectedWeekNumber: number;
 
   constructor() {
@@ -162,21 +172,19 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
-    this.selectedValue = '';
+    this.value.weekNumber = weekNumber;
+    this.value.year = this.selectedYear;
+    this.value.month = this.selectedMonth;
+
     this.selectedWeekNumber = weekNumber;
-    if (!dateGroupByWeek || !dateGroupByWeek.length) {
-      return;
-    }
-    this.selectedValue = 'Week ' + weekNumber + ', ' + +this.selectedYear;
+
     const from = dateGroupByWeek[0] as IDate;
     const to = dateGroupByWeek[dateGroupByWeek.length - 1] as IDate;
     const value = {
       weekNumber: weekNumber,
-      year: this.selectedYear,
-      month: this.selectedMonth,
-      value: this.selectedValue,
       from: from.shortDate,
       to: to.shortDate,
+      ...this.value,
     };
     this.control.patchValue(value);
     this.ngModelChange.emit(value);

@@ -1,12 +1,11 @@
 <div class="usa-week-calendar-wrapper" #calendarWrapper>
   <div class="usa-week-calendar-toggle">
-    <span *ngIf="!selectedValue"
+    <span
       >Week
       <span #weekNumberRef class="week-number" (click)="onClickWeekNumber()"
         >--</span
       >, <span #yearRef (click)="onClickYear()" class="year">----</span></span
     >
-    <span *ngIf="selectedValue">{{ selectedValue }}</span>
     <span class="usa-week-calendar-icon" #calendarToggle
       ><calendar-icon></calendar-icon
     ></span>
