@@ -79,7 +79,15 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     year: '',
     month: '',
   };
+  public display = {
+    weekNumber: '--',
+    year: '----',
+  };
+
   public selectedWeekNumber: number;
+
+  public weekNumberReplaceIndex: number;
+  public yearReplaceIndex: number;
 
   constructor() {
     this.currentYear = this.today.getFullYear();
@@ -115,10 +123,44 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   public onKeydown(event: KeyboardEvent) {
     const key = event.key;
     const selection = document.getSelection();
-    // case 1: enter week number
-    if (this.weekNumber.contains(selection.anchorNode)) {
+
+    // case 1: arrow left, arrow right
+    if (
+      this.weekNumber.contains(selection.anchorNode) &&
+      key === 'ArrowRight'
+    ) {
+      setTimeout(() => this.onClickYear());
     }
-    // case 2: enter year
+
+    if (this.year.contains(selection.anchorNode) && key === 'ArrowLeft') {
+      setTimeout(() => this.onClickWeekNumber());
+    }
+
+    // case 3: enter week number
+    if (
+      this.weekNumber.contains(selection.anchorNode) &&
+      /[\d]/.test(event.key)
+    ) {
+      // week number: '--', index starts from 0 to 1
+      if (this.weekNumberReplaceIndex <= 0) {
+        this.onClickYear();
+      }
+      // replace
+      const weekNumbers = this.display.weekNumber.split('');
+      weekNumbers[this.weekNumberReplaceIndex] = event.key;
+      this.display.weekNumber = weekNumbers.join('');
+      // set replace index to 0
+      this.weekNumberReplaceIndex--;
+      // select again
+      if (this.weekNumberReplaceIndex >= 0) {
+        setTimeout(() => this.selectNode(this.weekNumber.firstChild, 0, 2));
+      }
+    }
+    // case 4: enter year
+    if (this.year.contains(selection.anchorNode) && /[\d]/.test(event.key)) {
+      // week number: '----', index starts from 0 to 3
+      console.log('case 2');
+    }
   }
 
   private openDropdown(event) {
@@ -172,22 +214,33 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
+    // update selected new value
     this.value.weekNumber = weekNumber;
     this.value.year = this.selectedYear;
     this.value.month = this.selectedMonth;
+    // update display
+    this.display.year =
+      this.value.year >= 10 ? this.value.year : '0' + this.value.year;
+    this.display.weekNumber =
+      this.value.weekNumber >= 10
+        ? this.value.weekNumber
+        : '0' + this.value.weekNumber;
 
     this.selectedWeekNumber = weekNumber;
 
     const from = dateGroupByWeek[0] as IDate;
     const to = dateGroupByWeek[dateGroupByWeek.length - 1] as IDate;
+    // value
     const value = {
       weekNumber: weekNumber,
       from: from.shortDate,
       to: to.shortDate,
       ...this.value,
     };
+    // update ngModel
     this.control.patchValue(value);
     this.ngModelChange.emit(value);
+    // close dropdown
     setTimeout(() => {
       this.closeDropdown();
     });
@@ -234,10 +287,14 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   }
 
   public onClickWeekNumber() {
+    // week number: '--'
+    this.weekNumberReplaceIndex = 1; // set replace index to last index
     this.selectNode(this.weekNumber.firstChild, 0, 2);
   }
 
   public onClickYear() {
+    // year: '----'
+    this.yearReplaceIndex = 3; // set replace index to last index
     this.selectNode(this.year.firstChild, 0, 4);
   }
 

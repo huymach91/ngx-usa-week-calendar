@@ -2,9 +2,13 @@
   <div class="usa-week-calendar-toggle">
     <span
       >Week
-      <span #weekNumberRef class="week-number" (click)="onClickWeekNumber()"
-        >--</span
-      >, <span #yearRef (click)="onClickYear()" class="year">----</span></span
+      <span #weekNumberRef class="week-number" (click)="onClickWeekNumber()">{{
+        display.weekNumber
+      }}</span
+      >,
+      <span #yearRef (click)="onClickYear()" class="year">{{
+        display.year
+      }}</span></span
     >
     <span class="usa-week-calendar-icon" #calendarToggle
       ><calendar-icon></calendar-icon
