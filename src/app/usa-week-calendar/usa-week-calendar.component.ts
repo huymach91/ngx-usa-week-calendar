@@ -181,6 +181,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
         1,
         this.selectWeekNumberNode.bind(this)
       );
+      this.updateModel();
     }
 
     // case 3: enter year
@@ -198,6 +199,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
         3,
         this.selectYearNode.bind(this)
       );
+      this.updateModel();
     }
   }
 
@@ -225,11 +227,16 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     return list.join('');
   }
 
-  // section: week number = '--', year = '----'
+  /*
+    Summary: this is common handle for week number and year
+    @param section index: weekNumber or year
+    @param length: 1 for weekNumber, 3 for year
+    @param selectNodeFunc: select node function
+  */
   private handleReplaceIndexBySection(
-    sectionIndex: string,
+    sectionIndex: 'weekNumber' | 'year',
     length,
-    selectFunction: Function
+    selectNodeFunc: Function
   ) {
     this.replaceIndex[sectionIndex]--;
     // reset
@@ -238,7 +245,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     }
     // remaining node selection
     if (this.replaceIndex[sectionIndex] >= 0) {
-      selectFunction();
+      selectNodeFunc();
     }
   }
 
@@ -392,5 +399,35 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   private selectYearNode() {
     setTimeout(() => this.selectNode(this.year.firstChild, 0, 4));
+  }
+
+  private updateModel() {
+    if (!this.display.weekNumber && !this.display.year) return;
+    const weekNumber = +this.display.weekNumber;
+    const year = +this.display.year;
+
+    // get start, end date by week number
+    const m = moment().year(year).week(weekNumber);
+    this.selectedMonth = m.get('month') + 1;
+    this.selectedYear = m.get('year');
+    this.calcWeeks();
+    // update selected new value
+    this.value.weekNumber = weekNumber;
+    this.value.year = this.selectedYear;
+    this.value.month = this.selectedMonth;
+    // update model
+    this.selectedWeekNumber = weekNumber;
+    const from = this.dateGroupByWeek[weekNumber][0] as IDate;
+    const to = this.dateGroupByWeek[weekNumber][
+      this.dateGroupByWeek[weekNumber].length - 1
+    ] as IDate;
+    const value = {
+      weekNumber: this.selectedWeekNumber,
+      from: from.shortDate,
+      to: to.shortDate,
+      ...this.value,
+    };
+    this.control.patchValue(value);
+    this.ngModelChange.emit(value);
   }
 }
