@@ -127,7 +127,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     // case 1: arrow left, arrow right
     if (
       this.weekNumber.contains(selection.anchorNode) &&
-      key === 'ArrowRight'
+      (key === 'ArrowRight' || key === 'Tab')
     ) {
       setTimeout(() => this.onClickYear());
     }
@@ -140,7 +140,10 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.weekNumber.contains(selection.anchorNode) &&
       (key === 'Backspace' || key === 'Delete')
     ) {
+      // reset
       this.display.weekNumber = '--';
+      this.weekNumberReplaceIndex = 1;
+      // node selection
       this.selectWeekNumberNode();
     }
 
@@ -148,7 +151,10 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.year.contains(selection.anchorNode) &&
       (key === 'Backspace' || key === 'Delete')
     ) {
+      // reset
       this.display.year = '----';
+      this.yearReplaceIndex = 3;
+      // node selection
       this.selectYearNode();
     }
 
