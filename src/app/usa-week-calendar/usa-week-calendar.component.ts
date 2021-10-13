@@ -402,7 +402,12 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   }
 
   private updateModel() {
-    if (!this.display.weekNumber && !this.display.year) return;
+    const pattern = /^[\d]+$/;
+    if (
+      !pattern.test(this.display.weekNumber) ||
+      !pattern.test(this.display.year)
+    )
+      return;
     const weekNumber = +this.display.weekNumber;
     const year = +this.display.year;
 
