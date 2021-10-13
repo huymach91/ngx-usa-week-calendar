@@ -152,6 +152,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.replaceIndex.weekNumber = 1;
       // node selection
       this.selectWeekNumberNode();
+      // reset model
+      this.resetModel();
     }
 
     if (
@@ -163,6 +165,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       this.replaceIndex.weekNumber = 3;
       // node selection
       this.selectYearNode();
+      // reset model
+      this.resetModel();
     }
 
     // case 2: enter week number
@@ -403,6 +407,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   private updateModel() {
     const pattern = /^[\d]+$/;
+    this.resetModel();
+    console.log(this.display);
     if (
       !pattern.test(this.display.weekNumber) ||
       !pattern.test(this.display.year)
@@ -434,5 +440,10 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     };
     this.control.patchValue(value);
     this.ngModelChange.emit(value);
+  }
+
+  public resetModel() {
+    this.control.patchValue({});
+    this.ngModelChange.emit({});
   }
 }
