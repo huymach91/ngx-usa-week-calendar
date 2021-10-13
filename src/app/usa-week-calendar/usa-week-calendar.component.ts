@@ -25,6 +25,11 @@ interface IValue {
   month: any;
 }
 
+interface IReplaceIndex {
+  weekNumber: number;
+  year: number;
+}
+
 @Component({
   selector: 'usa-week-calendar',
   templateUrl: './usa-week-calendar.component.html',
@@ -86,8 +91,10 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   public selectedWeekNumber: number;
 
-  public weekNumberReplaceIndex: number;
-  public yearReplaceIndex: number;
+  private replaceIndex: IReplaceIndex = {
+    weekNumber: 3,
+    year: 1,
+  };
 
   constructor() {
     this.currentYear = this.today.getFullYear();
@@ -142,7 +149,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     ) {
       // reset
       this.display.weekNumber = '--';
-      this.weekNumberReplaceIndex = 1;
+      this.replaceIndex.weekNumber = 1;
       // node selection
       this.selectWeekNumberNode();
     }
@@ -153,7 +160,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     ) {
       // reset
       this.display.year = '----';
-      this.yearReplaceIndex = 3;
+      this.replaceIndex.weekNumber = 3;
       // node selection
       this.selectYearNode();
     }
@@ -163,36 +170,34 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // move to year if replace index starts from 0
       const weekNumbers = this.display.weekNumber.split('');
-      this.rollValueToEnd(weekNumbers, key, this.weekNumberReplaceIndex, 1);
-      this.display.weekNumber = weekNumbers.join('');
-      // down the replace index
-      this.weekNumberReplaceIndex--;
-      // reset
-      if (this.weekNumberReplaceIndex < 0) {
-        this.weekNumberReplaceIndex = 1;
-      }
-      // remaining node selection
-      if (this.weekNumberReplaceIndex >= 0) {
-        this.selectWeekNumberNode();
-      }
+      this.display.weekNumber = this.rollValueToEnd(
+        weekNumbers,
+        key,
+        this.replaceIndex.weekNumber,
+        1
+      );
+      this.handleReplaceIndexBySection(
+        'weekNumber',
+        1,
+        this.selectWeekNumberNode.bind(this)
+      );
     }
 
     // case 3: enter year
     if (this.year.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // year: '----', index starts from 0 to 3
       const years = this.display.year.split('');
-      this.rollValueToEnd(years, key, this.yearReplaceIndex, 3);
-      this.display.year = years.join('');
-      // down the replace index
-      this.yearReplaceIndex--;
-      // reset
-      if (this.yearReplaceIndex < 0) {
-        this.yearReplaceIndex = 3;
-      }
-      // remaining node selection
-      if (this.yearReplaceIndex >= 0) {
-        this.selectYearNode();
-      }
+      this.display.year = this.rollValueToEnd(
+        years,
+        key,
+        this.replaceIndex.year,
+        3
+      );
+      this.handleReplaceIndexBySection(
+        'year',
+        3,
+        this.selectYearNode.bind(this)
+      );
     }
   }
 
@@ -217,6 +222,24 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       }
     }
     list[to] = value;
+    return list.join('');
+  }
+
+  // section: week number = '--', year = '----'
+  private handleReplaceIndexBySection(
+    sectionIndex: string,
+    length,
+    selectFunction: Function
+  ) {
+    this.replaceIndex[sectionIndex]--;
+    // reset
+    if (this.replaceIndex[sectionIndex] < 0) {
+      this.replaceIndex[sectionIndex] = length;
+    }
+    // remaining node selection
+    if (this.replaceIndex[sectionIndex] >= 0) {
+      selectFunction();
+    }
   }
 
   private openDropdown(event) {
@@ -344,13 +367,13 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   public onClickWeekNumber() {
     // week number: '--'
-    this.weekNumberReplaceIndex = 1; // set replace index to last index
+    this.replaceIndex.weekNumber = 1; // set replace index to last index
     this.selectNode(this.weekNumber.firstChild, 0, 2);
   }
 
   public onClickYear() {
     // year: '----'
-    this.yearReplaceIndex = 3; // set replace index to last index
+    this.replaceIndex.year = 3; // set replace index to last index
     this.selectNode(this.year.firstChild, 0, 4);
   }
 
