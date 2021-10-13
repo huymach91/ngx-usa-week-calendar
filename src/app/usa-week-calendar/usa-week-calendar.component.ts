@@ -181,12 +181,13 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // move to year if replace index starts from 0
       const weekNumbers = this.display.weekNumber.split('');
-      this.display.weekNumber = this.rollValueToEnd(
+      const newWeekNumber = this.rollValueToEnd(
         weekNumbers,
         key,
         this.replaceIndex.weekNumber,
         1
       );
+      this.display.weekNumber = +newWeekNumber > 53 ? '53' : newWeekNumber;
       this.handleReplaceIndexBySection(
         'weekNumber',
         1,
