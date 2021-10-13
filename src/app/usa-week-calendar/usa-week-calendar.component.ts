@@ -116,6 +116,10 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     this.year = this.yearRef.nativeElement;
 
     this.toggle.addEventListener('click', this.openDropdown.bind(this));
+    this.wrapper.onclick = (event: MouseEvent) => {
+      if (this.wrapper !== event.target) return;
+      this.selectWeekNumberNode();
+    };
   }
 
   @HostListener('document:click', ['$event'])
