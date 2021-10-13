@@ -187,8 +187,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
         this.replaceIndex.weekNumber,
         1
       );
-      this.display.weekNumber =
-        +newWeekNumber > 53 ? '53' : +newWeekNumber === 0 ? '01' : newWeekNumber;
+      this.display.weekNumber = +newWeekNumber > 53 ? '52' : newWeekNumber;
       this.handleReplaceIndexBySection(
         'weekNumber',
         1,
@@ -388,13 +387,13 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   public onClickWeekNumber() {
     // week number: '--'
     this.replaceIndex.weekNumber = 1; // set replace index to last index
-    this.selectNode(this.weekNumber.firstChild, 0, 2);
+    this.selectWeekNumberNode();
   }
 
   public onClickYear() {
     // year: '----'
     this.replaceIndex.year = 3; // set replace index to last index
-    this.selectNode(this.year.firstChild, 0, 4);
+    this.selectYearNode();
   }
 
   private selectNode(node, start: number, end: number) {
@@ -412,15 +411,20 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
 
   private selectYearNode() {
     setTimeout(() => this.selectNode(this.year.firstChild, 0, 4));
+    // default week number
+    const weekNumber = this.display.weekNumber;
+    console.log('weekNumber', weekNumber);
+    this.display.weekNumber = weekNumber === '00' ? '01' : weekNumber;
   }
 
   private updateModel() {
     const pattern = /^[\d]+$/;
     this.resetModel();
-    console.log(this.display);
+    console.log(this.display.weekNumber);
     if (
       !pattern.test(this.display.weekNumber) ||
-      !pattern.test(this.display.year)
+      !pattern.test(this.display.year) ||
+      this.display.weekNumber === '00'
     )
       return;
     const weekNumber = +this.display.weekNumber;
