@@ -187,7 +187,8 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
         this.replaceIndex.weekNumber,
         1
       );
-      this.display.weekNumber = +newWeekNumber > 53 ? '53' : newWeekNumber;
+      this.display.weekNumber =
+        +newWeekNumber > 53 ? '53' : +newWeekNumber === 0 ? '01' : newWeekNumber;
       this.handleReplaceIndexBySection(
         'weekNumber',
         1,
