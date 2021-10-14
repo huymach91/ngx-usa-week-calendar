@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
   forwardRef,
   HostListener,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -37,6 +37,8 @@ interface IValue {
 export class USAWeekCalendarComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
+  @Input() formControlName: string;
+
   @ViewChild('calendarWrapper', { static: false }) calendarWrapper: ElementRef;
   @ViewChild('calendarToggle', { static: false }) calendarToggle: ElementRef;
   @ViewChild('calendarDropdown', { static: false })
@@ -110,6 +112,8 @@ export class USAWeekCalendarComponent
   ngOnInit(): void {}
 
   private modelToView(value: IValue) {
+    if (!value) return;
+
     if (value.weekNumber && value.year) {
       this.display.weekNumber = value.weekNumber;
       this.display.year = value.year;
@@ -119,6 +123,7 @@ export class USAWeekCalendarComponent
 
   private viewToModel(value: IValueFromView = null) {
     this.onModelChange(value);
+    this.onTouched();
   }
 
   ngAfterViewInit() {
