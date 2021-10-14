@@ -37,9 +37,6 @@ interface IValue {
 export class USAWeekCalendarComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
-  // @Input('control') control: FormControl;
-  // @Output('ngModelChange') ngModelChange = new EventEmitter();
-
   @ViewChild('calendarWrapper', { static: false }) calendarWrapper: ElementRef;
   @ViewChild('calendarToggle', { static: false }) calendarToggle: ElementRef;
   @ViewChild('calendarDropdown', { static: false })
