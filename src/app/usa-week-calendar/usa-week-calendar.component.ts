@@ -210,7 +210,6 @@ export class USAWeekCalendarComponent
     // week number: '--', index starts from 0 to 1
     if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // move to year if replace index starts from 0
-      console.log(' wek num,', this.display.weekNumber);
       const weekNumbers = this.display.weekNumber.split('');
       const newWeekNumber = this.rollValueToEnd(
         weekNumbers,
@@ -218,7 +217,7 @@ export class USAWeekCalendarComponent
         this.replaceIndex.weekNumber,
         1
       );
-      this.display.weekNumber = +newWeekNumber > 53 ? '52' : newWeekNumber;
+      this.display.weekNumber = +newWeekNumber > 52 ? '52' : newWeekNumber;
       this.handleReplaceIndexBySection(
         'weekNumber',
         1,
@@ -449,6 +448,7 @@ export class USAWeekCalendarComponent
   private updateModelByDisplay() {
     const pattern = /^[\d]+$/;
     this.resetModel();
+    console.log('123', this.display.weekNumber);
     if (
       !pattern.test(this.display.weekNumber) ||
       !pattern.test(this.display.year) ||
