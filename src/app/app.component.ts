@@ -1,6 +1,9 @@
-import { Component, OnInit, VERSION } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { IValueFromModel } from './usa-week-calendar/usa-week-calendar.interface';
+import {
+  IValueFromModel,
+  IValueFromView,
+} from './usa-week-calendar/usa-week-calendar.interface';
 
 @Component({
   selector: 'my-app',
@@ -9,7 +12,7 @@ import { IValueFromModel } from './usa-week-calendar/usa-week-calendar.interface
 })
 export class AppComponent implements OnInit {
   public selectedWeek = 42;
-  public control = this.formBuilder.control('');
+  public control = this.formBuilder.control(null);
 
   public form = this.formBuilder.group({
     weekNumber: this.control,
@@ -27,5 +30,5 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public onChangeWeekCalendar(value) {}
+  public onChangeWeekCalendar(value: IValueFromView) {}
 }
