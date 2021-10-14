@@ -448,7 +448,6 @@ export class USAWeekCalendarComponent
   private updateModelByDisplay() {
     const pattern = /^[\d]+$/;
     this.resetModel();
-    console.log('123', this.display.weekNumber);
     if (
       !pattern.test(this.display.weekNumber) ||
       !pattern.test(this.display.year) ||
