@@ -11,7 +11,7 @@
     <usa-week-calendar
       name="week-calendar"
       (ngModelChange)="onChangeWeekCalendar($event)"
-      [formControl]="control"
+      formControlName="weekNumber"
     ></usa-week-calendar>
   </div>
 </form>
@@ -19,5 +19,5 @@
 <br />
 <div>
   model:
-  <pre>{{ control.value | json }}</pre>
+  <pre>{{ control.value ? (control.value | json) : '' }}</pre>
 </div>
