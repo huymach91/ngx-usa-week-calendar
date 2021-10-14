@@ -11,6 +11,10 @@ export class AppComponent implements OnInit {
   public selectedWeek = 42;
   public control = this.formBuilder.control('');
 
+  public form = this.formBuilder.group({
+    weekNumber: this.control,
+  });
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -23,7 +27,5 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public onChangeWeekCalendar(value) {
-    console.log(value);
-  }
+  public onChangeWeekCalendar(value) {}
 }

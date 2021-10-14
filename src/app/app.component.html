@@ -6,13 +6,16 @@
     >Reference</a
   >
 </h2>
-<div class="width-150">
-  <usa-week-calendar
-    name="week-calendar"
-    (ngModelChange)="onChangeWeekCalendar($event)"
-    [formControl]="control"
-  ></usa-week-calendar>
-</div>
+<form novalidate [formGroup]="form">
+  <div class="width-150">
+    <usa-week-calendar
+      name="week-calendar"
+      (ngModelChange)="onChangeWeekCalendar($event)"
+      [formControl]="control"
+    ></usa-week-calendar>
+  </div>
+</form>
+
 <br />
 <div>
   model:

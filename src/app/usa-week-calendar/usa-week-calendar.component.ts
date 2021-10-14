@@ -437,7 +437,6 @@ export class USAWeekCalendarComponent
     setTimeout(() => this.selectNode(this.year.firstChild, 0, 4));
     // default week number
     const weekNumber = this.display.weekNumber;
-    console.log('weekNumber', weekNumber);
     this.display.weekNumber = weekNumber === '00' ? '01' : weekNumber;
   }
 
