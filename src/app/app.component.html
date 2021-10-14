@@ -1,13 +1,16 @@
-<h2>Ngx Week Calendar (United States) - <a
-  href="https://www.timeanddate.com/calendar/?year=2021&country=1&wno=1"
-  target="_blank"
-  >Reference</a
-></h2>
+<h2>
+  Ngx Week Calendar (United States) -
+  <a
+    href="https://www.timeanddate.com/calendar/?year=2021&country=1&wno=1"
+    target="_blank"
+    >Reference</a
+  >
+</h2>
 <div class="width-150">
   <usa-week-calendar
     name="week-calendar"
     (ngModelChange)="onChangeWeekCalendar($event)"
-    [control]="control"
+    [formControl]="control"
   ></usa-week-calendar>
 </div>
 <br />

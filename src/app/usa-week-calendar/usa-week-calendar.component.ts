@@ -3,21 +3,24 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  forwardRef,
   HostListener,
-  Input,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import moment = require('moment');
+import {
+  IDate,
+  IReplaceIndex,
+  IValueFromView,
+} from './usa-week-calendar.interface';
 
-interface IDate {
-  shortDate: string;
-  date: string;
-  dayInWeek: string;
-  week: number;
-}
+const USA_CALENDAR_INPUT_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => USAWeekCalendarComponent),
+  multi: true,
+};
 
 interface IValue {
   weekNumber: any;
@@ -25,19 +28,17 @@ interface IValue {
   month: any;
 }
 
-interface IReplaceIndex {
-  weekNumber: number;
-  year: number;
-}
-
 @Component({
   selector: 'usa-week-calendar',
   templateUrl: './usa-week-calendar.component.html',
   styleUrls: ['./usa-week-calendar.component.scss'],
+  providers: [USA_CALENDAR_INPUT_VALUE_ACCESSOR],
 })
-export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
-  @Input('control') control: FormControl;
-  @Output('ngModelChange') ngModelChange = new EventEmitter();
+export class USAWeekCalendarComponent
+  implements OnInit, AfterViewInit, ControlValueAccessor
+{
+  // @Input('control') control: FormControl;
+  // @Output('ngModelChange') ngModelChange = new EventEmitter();
 
   @ViewChild('calendarWrapper', { static: false }) calendarWrapper: ElementRef;
   @ViewChild('calendarToggle', { static: false }) calendarToggle: ElementRef;
@@ -96,6 +97,9 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     year: 1,
   };
 
+  private onTouched: Function;
+  private onModelChange: Function;
+
   constructor() {
     this.currentYear = this.today.getFullYear();
     this.selectedYear = this.today.getFullYear();
@@ -107,6 +111,18 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {}
+
+  private modelToView(value: IValue) {
+    if (value.weekNumber && value.year) {
+      this.display.weekNumber = value.weekNumber;
+      this.display.year = value.year;
+      this.updateModelByDisplay();
+    }
+  }
+
+  private viewToModel(value: IValueFromView = null) {
+    this.onModelChange(value);
+  }
 
   ngAfterViewInit() {
     this.wrapper = this.calendarWrapper.nativeElement;
@@ -123,6 +139,18 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       if (this.wrapper !== event.target) return;
       this.selectWeekNumberNode();
     };
+  }
+
+  writeValue(value) {
+    this.modelToView(value);
+  }
+
+  registerOnTouched(fn) {
+    this.onTouched = fn;
+  }
+
+  registerOnChange(fn) {
+    this.onModelChange = fn;
   }
 
   @HostListener('document:click', ['$event'])
@@ -193,7 +221,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
         1,
         this.selectWeekNumberNode.bind(this)
       );
-      this.updateModel();
+      this.updateModelByDisplay();
     }
 
     // case 3: enter year
@@ -211,7 +239,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
         3,
         this.selectYearNode.bind(this)
       );
-      this.updateModel();
+      this.updateModelByDisplay();
     }
   }
 
@@ -336,8 +364,7 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       ...this.value,
     };
     // update ngModel
-    this.control.patchValue(value);
-    this.ngModelChange.emit(value);
+    this.viewToModel(value);
     // close dropdown
     setTimeout(() => {
       this.closeDropdown();
@@ -417,10 +444,9 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
     this.display.weekNumber = weekNumber === '00' ? '01' : weekNumber;
   }
 
-  private updateModel() {
+  private updateModelByDisplay() {
     const pattern = /^[\d]+$/;
     this.resetModel();
-    console.log(this.display.weekNumber);
     if (
       !pattern.test(this.display.weekNumber) ||
       !pattern.test(this.display.year) ||
@@ -451,12 +477,11 @@ export class USAWeekCalendarComponent implements OnInit, AfterViewInit {
       to: to.shortDate,
       ...this.value,
     };
-    this.control.patchValue(value);
-    this.ngModelChange.emit(value);
+    // update model
+    this.viewToModel(value);
   }
 
   public resetModel() {
-    this.control.patchValue({});
-    this.ngModelChange.emit({});
+    this.viewToModel();
   }
 }
