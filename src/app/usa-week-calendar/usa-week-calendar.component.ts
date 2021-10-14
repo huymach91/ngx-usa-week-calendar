@@ -115,8 +115,8 @@ export class USAWeekCalendarComponent
     if (!value) return;
 
     if (value.weekNumber && value.year) {
-      this.display.weekNumber = value.weekNumber;
-      this.display.year = value.year;
+      this.display.weekNumber = '' + value.weekNumber;
+      this.display.year = '' + value.year;
       this.updateModelByDisplay();
     }
   }
@@ -210,6 +210,7 @@ export class USAWeekCalendarComponent
     // week number: '--', index starts from 0 to 1
     if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // move to year if replace index starts from 0
+      console.log(' wek num,', this.display.weekNumber);
       const weekNumbers = this.display.weekNumber.split('');
       const newWeekNumber = this.rollValueToEnd(
         weekNumbers,
@@ -314,8 +315,8 @@ export class USAWeekCalendarComponent
   }
 
   private getDaysOfMonth(year: number, month: number) {
-    const monthDate = moment(year + '-' + month, 'YYYY-MM');
-    let daysInMonth = monthDate.daysInMonth();
+    const monthDate = new Date(year, month, 0);
+    let daysInMonth = monthDate.getDate();
     const arrDays: Array<IDate> = [];
     let i = 1;
     while (i <= daysInMonth) {
