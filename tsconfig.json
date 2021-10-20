@@ -14,7 +14,8 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "strict": false,
-    "noImplicitReturns": false
+    "noImplicitReturns": false,
+    "noImplicitAny": true
   },
   "angularCompilerOptions": {
     "enableIvy": true,

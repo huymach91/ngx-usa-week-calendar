@@ -43,8 +43,8 @@ export class NgxUSAWeekCalendarComponent
   @ViewChild('calendarToggle', { static: false }) calendarToggle: ElementRef;
   @ViewChild('calendarDropdown', { static: false })
   calendarDropdown: ElementRef;
-  @ViewChild('weekNumberRef', { static: false }) weekNumberRef;
-  @ViewChild('yearRef', { static: false }) yearRef;
+  @ViewChild('weekNumberRef', { static: false }) weekNumberRef: ElementRef;
+  @ViewChild('yearRef', { static: false }) yearRef: ElementRef;
 
   public wrapper: HTMLDivElement;
   public toggle: HTMLDivElement;
@@ -67,7 +67,7 @@ export class NgxUSAWeekCalendarComponent
     'Dec',
   ];
   public weeks = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sat'];
-  public years = [];
+  public years: Array<number> = [];
 
   public today = new Date();
   public currentYear: number;
@@ -76,8 +76,8 @@ export class NgxUSAWeekCalendarComponent
   public selectedMonth: number; // 1-12
   public selectedYear: number;
 
-  public dateGroupByWeek = {}; // { 36: [], 37: [] }
-  public weekNumbers = []; // [36, 37, 38, 39, 40]
+  public dateGroupByWeek: any = {}; // { 36: [], 37: [] }
+  public weekNumbers: Array<number> = []; // [36, 37, 38, 39, 40]
 
   public value: IValue = {
     weekNumber: '',
@@ -147,16 +147,16 @@ export class NgxUSAWeekCalendarComponent
     this.modelToView(value);
   }
 
-  registerOnTouched(fn) {
+  registerOnTouched(fn: any) {
     this.onTouched = fn;
   }
 
-  registerOnChange(fn) {
+  registerOnChange(fn: any) {
     this.onModelChange = fn;
   }
 
   @HostListener('document:click', ['$event'])
-  public onClickOutside(event) {
+  public onClickOutside(event: any) {
     if (this.wrapper && !this.wrapper.contains(event.target)) {
       this.dropdown.style.setProperty('display', 'none');
       return;
@@ -277,7 +277,7 @@ export class NgxUSAWeekCalendarComponent
   */
   private handleReplaceIndexBySection(
     sectionIndex: 'weekNumber' | 'year',
-    length,
+    length = 0,
     selectNodeFunc: Function
   ) {
     this.replaceIndex[sectionIndex]--;
@@ -291,7 +291,7 @@ export class NgxUSAWeekCalendarComponent
     }
   }
 
-  private openDropdown(event) {
+  private openDropdown(event: any) {
     if (this.wrapper && !this.wrapper.contains(event.target)) {
       this.closeDropdown();
       return;
@@ -406,7 +406,7 @@ export class NgxUSAWeekCalendarComponent
     this.calcWeeks();
   }
 
-  private groupBy(list, key) {
+  private groupBy(list: Array<any>, key: any) {
     return list.reduce(function (rv, x) {
       (rv[x[key]] = rv[x[key]] || []).push(x);
       return rv;
@@ -425,7 +425,7 @@ export class NgxUSAWeekCalendarComponent
     this.selectYearNode();
   }
 
-  private selectNode(node, start: number, end: number) {
+  private selectNode(node: any, start: number, end: number) {
     const selection = document.getSelection();
     const range = document.createRange();
     range.setStart(node, start);
