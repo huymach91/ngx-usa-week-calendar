@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       const value: IValueFromModel = {
-        year: 2021,
-        weekNumber: 39,
+        year: '',
+        weekNumber: '',
       };
       this.control.patchValue(value);
     });
