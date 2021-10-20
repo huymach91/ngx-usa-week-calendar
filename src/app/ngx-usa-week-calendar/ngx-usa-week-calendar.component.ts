@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import moment = require('moment');
+import * as moment from 'moment';
 import {
   IDate,
   IReplaceIndex,
@@ -143,7 +143,7 @@ export class NgxUSAWeekCalendarComponent
     };
   }
 
-  writeValue(value) {
+  writeValue(value: any) {
     this.modelToView(value);
   }
 
