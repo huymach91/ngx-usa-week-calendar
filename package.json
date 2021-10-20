@@ -1,7 +1,9 @@
 {
-  "name": "angular",
+  "name": "ngx-usa-week-calendar",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "author": "huy mach <huy.mach.webdev@gmail.com>",
+  "keywords": ["ngx usa week calendar"],
   "dependencies": {
     "@angular/animations": "^12.2.9",
     "@angular/common": "^12.2.9",
