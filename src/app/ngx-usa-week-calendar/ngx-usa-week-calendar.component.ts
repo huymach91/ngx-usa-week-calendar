@@ -30,7 +30,7 @@ interface IValue {
 
 @Component({
   selector: 'ngx-usa-week-calendar',
-  templateUrl: './ngx-ngx-usa-week-calendar.component.html',
+  templateUrl: './ngx-usa-week-calendar.component.html',
   styleUrls: ['./ngx-usa-week-calendar.component.scss'],
   providers: [USA_CALENDAR_INPUT_VALUE_ACCESSOR],
 })
