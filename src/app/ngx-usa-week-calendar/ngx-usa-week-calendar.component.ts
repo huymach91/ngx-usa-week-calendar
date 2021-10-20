@@ -14,11 +14,11 @@ import {
   IDate,
   IReplaceIndex,
   IValueFromView,
-} from './usa-week-calendar.interface';
+} from './ngx-usa-week-calendar.interface';
 
 const USA_CALENDAR_INPUT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => USAWeekCalendarComponent),
+  useExisting: forwardRef(() => NgxUSAWeekCalendarComponent),
   multi: true,
 };
 
@@ -29,12 +29,12 @@ interface IValue {
 }
 
 @Component({
-  selector: 'usa-week-calendar',
-  templateUrl: './usa-week-calendar.component.html',
-  styleUrls: ['./usa-week-calendar.component.scss'],
+  selector: 'ngx-usa-week-calendar',
+  templateUrl: './ngx-ngx-usa-week-calendar.component.html',
+  styleUrls: ['./ngx-usa-week-calendar.component.scss'],
   providers: [USA_CALENDAR_INPUT_VALUE_ACCESSOR],
 })
-export class USAWeekCalendarComponent
+export class NgxUSAWeekCalendarComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
   @Input() formControlName: string;

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { USAWeekCalendarModule } from './usa-week-calendar/usa-week-calendar.module';
+import { NgxUSAWeekCalendarModule } from './ngx-usa-week-calendar/ngx-usa-week-calendar.module';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    USAWeekCalendarModule,
+    NgxUSAWeekCalendarModule,
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
