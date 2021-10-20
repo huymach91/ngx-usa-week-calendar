@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import {
   IValueFromModel,
   IValueFromView,
-} from './usa-week-calendar/usa-week-calendar.interface';
+} from './ngx-usa-week-calendar/ngx-usa-week-calendar.interface';
 
 @Component({
   selector: 'my-app',

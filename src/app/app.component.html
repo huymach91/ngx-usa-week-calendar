@@ -10,11 +10,11 @@
 <h4>Use with Reactivive Form</h4>
 <form novalidate [formGroup]="form">
   <div class="width-150">
-    <usa-week-calendar
+    <ngx-usa-week-calendar
       name="week-calendar"
       (ngModelChange)="onChangeWeekCalendar($event)"
       formControlName="weekNumber"
-    ></usa-week-calendar>
+    ></ngx-usa-week-calendar>
   </div>
 </form>
 
