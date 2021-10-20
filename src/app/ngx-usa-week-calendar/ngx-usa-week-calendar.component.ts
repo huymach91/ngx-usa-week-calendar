@@ -210,7 +210,7 @@ export class NgxUSAWeekCalendarComponent
     // week number: '--', index starts from 0 to 1
     if (this.weekNumber.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // move to year if replace index starts from 0
-      const weekNumbers = this.display.weekNumber.split('');
+      const weekNumbers = this.display.weekNumber.toString().split('');
       const newWeekNumber = this.rollValueToEnd(
         weekNumbers,
         key,

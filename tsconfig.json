@@ -15,11 +15,12 @@
     "lib": ["es2018", "dom"],
     "strict": false,
     "noImplicitReturns": false,
-    "noImplicitAny": true
+    "noImplicitAny": false
   },
   "angularCompilerOptions": {
     "enableIvy": true,
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": false
+    "strictInjectionParameters": false,
+    "suppressImplicitAnyIndexErrors": true
   }
 }
