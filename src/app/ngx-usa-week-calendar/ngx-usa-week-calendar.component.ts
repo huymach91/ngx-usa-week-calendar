@@ -76,7 +76,7 @@ export class NgxUSAWeekCalendarComponent
   public selectedMonth: number; // 1-12
   public selectedYear: number;
 
-  public dateGroupByWeek: any = {}; // { 36: [], 37: [] }
+  public dateGroupByWeek: { [T: string]: any[] } = {}; // { 36: [], 37: [] }
   public weekNumbers: Array<number> = []; // [36, 37, 38, 39, 40]
 
   public value: IValue = {
@@ -377,11 +377,11 @@ export class NgxUSAWeekCalendarComponent
     const m = moment();
     this.selectedYear = m.get('year');
     this.selectedMonth = m.get('month') + 1;
+    const selectedWeekNumber = this.dateGroupByWeek[
+      this.selectedWeekNumber
+    ] as any;
     this.calcWeeks();
-    this.onSelectWeekNumber(
-      this.dateGroupByWeek[this.selectedWeekNumber],
-      moment().week()
-    );
+    this.onSelectWeekNumber(selectedWeekNumber, moment().week());
   }
 
   public previous() {
@@ -425,7 +425,7 @@ export class NgxUSAWeekCalendarComponent
     this.selectYearNode();
   }
 
-  private selectNode(node: any, start: number, end: number) {
+  private selectNode(node: Node, start: number, end: number) {
     const selection = document.getSelection();
     const range = document.createRange();
     range.setStart(node, start);
