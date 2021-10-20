@@ -379,7 +379,7 @@ export class NgxUSAWeekCalendarComponent
     this.selectedMonth = m.get('month') + 1;
     const selectedWeekNumber = this.dateGroupByWeek[
       this.selectedWeekNumber
-    ] as any;
+    ] as any[];
     this.calcWeeks();
     this.onSelectWeekNumber(selectedWeekNumber, moment().week());
   }
