@@ -28,9 +28,9 @@ This module need to install **moment** and **ngx-moment**. it can be used with r
 
 ## Screenshots
 
-![App Screenshot](https://raw.githubusercontent.com/huymach91/ngx-usa-week-calendar/master/src/assets/ngx-usa-week-calendar.png?token=AHXRERLFKYJVE4Q5AAVP5PLBN77YS)
+![App Screenshot](https://raw.githubusercontent.com/huymach91/ngx-usa-week-calendar/master/src/assets/ngx-usa-week-calendar.png?token=AHXRERMNIXKGDSQLD4K7BILBOABMQ)
 
-![App Screenshot](https://raw.githubusercontent.com/huymach91/ngx-usa-week-calendar/master/src/assets/ngx-usa-week-calendar-2.png?token=AHXRERPBIP53RVG4TJ2GFJLBOAADW)
+![App Screenshot](https://raw.githubusercontent.com/huymach91/ngx-usa-week-calendar/master/src/assets/ngx-usa-week-calendar-2.png?token=AHXRERJBF5QEPKBWS3LJCILBOABNQ)
 
 ## Browser Support
 
