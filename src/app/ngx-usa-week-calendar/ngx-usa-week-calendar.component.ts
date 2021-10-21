@@ -229,7 +229,7 @@ export class NgxUSAWeekCalendarComponent
     // case 3: enter year
     if (this.year.contains(selection.anchorNode) && /[\d]/.test(key)) {
       // year: '----', index starts from 0 to 3
-      const years = this.display.year.split('');
+      const years = this.display.year.toString().split('');
       this.display.year = this.rollValueToEnd(
         years,
         key,
