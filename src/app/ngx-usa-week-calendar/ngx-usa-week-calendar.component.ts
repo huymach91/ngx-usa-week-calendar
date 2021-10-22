@@ -496,7 +496,9 @@ export class NgxUSAWeekCalendarComponent
   private setDefaultValueIf() {
     // for weekNumber, if vakue is equal to 00, set it to 01
     // for year, if vakue is equal to 0000, set it to 0001
-    const { weekNumber, year } = this.value;
-    console.log('weekNumber', weekNumber, year);
+    const { weekNumber, year } = this.display;
+    this.display.weekNumber = weekNumber === '00' ? '01' : weekNumber;
+    this.display.year = year === '0000' ? '0001' : year;
+    
   }
 }
