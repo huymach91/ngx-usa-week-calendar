@@ -342,7 +342,6 @@ export class NgxUSAWeekCalendarComponent
   }
 
   public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
-    console.log(this.value);
     // update selected new value
     this.value.weekNumber = weekNumber;
     this.value.year = this.selectedYear;
