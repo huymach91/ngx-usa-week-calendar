@@ -104,7 +104,7 @@ export class NgxUSAWeekCalendarComponent
     this.selectedYear = this.today.getFullYear();
     this.currentMonth = this.today.getMonth() + 1;
     this.selectedMonth = this.currentMonth;
-    for (let i = this.currentYear; i > this.currentYear - 10; i--) {
+    for (let i = this.currentYear; i > this.currentYear - 100; i--) {
       this.years.push(i);
     }
   }
