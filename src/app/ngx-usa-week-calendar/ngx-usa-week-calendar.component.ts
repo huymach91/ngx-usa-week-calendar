@@ -342,17 +342,14 @@ export class NgxUSAWeekCalendarComponent
   }
 
   public onSelectWeekNumber(dateGroupByWeek: Array<IDate>, weekNumber: number) {
+    console.log(this.value);
     // update selected new value
     this.value.weekNumber = weekNumber;
     this.value.year = this.selectedYear;
     this.value.month = this.selectedMonth;
     // update display
-    this.display.year =
-      this.value.year >= 10 ? this.value.year : '0' + this.value.year;
-    this.display.weekNumber =
-      this.value.weekNumber >= 10
-        ? this.value.weekNumber
-        : '0' + this.value.weekNumber;
+    this.display.year = this.leadingZeros(this.value.year, 4);
+    this.display.weekNumber = this.leadingZeros(this.value.weekNumber, 2);
 
     this.selectedWeekNumber = weekNumber;
 
@@ -484,5 +481,13 @@ export class NgxUSAWeekCalendarComponent
 
   public resetModel() {
     this.viewToModel();
+  }
+
+  private leadingZeros(num, size) {
+    let s = num + '';
+    while (s.length < size) {
+      s = '0' + s;
+    }
+    return s;
   }
 }
