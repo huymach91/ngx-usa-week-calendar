@@ -159,6 +159,7 @@ export class NgxUSAWeekCalendarComponent
   public onClickOutside(event: any) {
     if (this.wrapper && !this.wrapper.contains(event.target)) {
       this.dropdown.style.setProperty('display', 'none');
+      this.setDefaultValueIf();
       return;
     }
   }
@@ -447,7 +448,8 @@ export class NgxUSAWeekCalendarComponent
     if (
       !pattern.test(this.display.weekNumber) ||
       !pattern.test(this.display.year) ||
-      this.display.weekNumber === '00'
+      this.display.weekNumber === '00' ||
+      this.display.year === '0000'
     )
       return;
     const weekNumber = +this.display.weekNumber;
@@ -457,6 +459,7 @@ export class NgxUSAWeekCalendarComponent
     const m = moment().year(year).week(weekNumber);
     this.selectedMonth = m.get('month') + 1;
     this.selectedYear = m.get('year');
+    
     this.calcWeeks();
     // update selected new value
     this.value.weekNumber = weekNumber;
@@ -482,11 +485,18 @@ export class NgxUSAWeekCalendarComponent
     this.viewToModel();
   }
 
-  private leadingZeros(num, size) {
+  private leadingZeros(num: number, size: number) {
     let s = num + '';
     while (s.length < size) {
       s = '0' + s;
     }
     return s;
+  }
+
+  private setDefaultValueIf() {
+    // for weekNumber, if vakue is equal to 00, set it to 01
+    // for year, if vakue is equal to 0000, set it to 0001
+    const { weekNumber, year } = this.value;
+    console.log('weekNumber', weekNumber, year);
   }
 }
